@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# this is task 0 opf debugging
+# Start Apache and configure the default webpage
 
-sudo service apache2 status
-sudo service apache2 restart
-curl localhost
+echo "Hello Holberton" > /var/www/html/index.html
+
+service apache2 start
+
+service apache2 status
+
