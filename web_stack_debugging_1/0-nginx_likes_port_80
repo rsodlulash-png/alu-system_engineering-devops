@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# this is about debugging our nginx
+
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx restart
+curl localhost
