@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Configures Nginx to add an X-Served-By header with the server hostname
+# shellcheck disable=SC2154
+
+apt-get update
+apt-get install -y nginx
+
+echo 'add_header X-Served-By $hostname;' > /etc/nginx/conf.d/custom_header.conf
+
+service nginx restart#!/usr/bin/env bash
+# Configures Nginx to add an X-Served-By header with the server hostname
+# shellcheck disable=SC2154
+
+apt-get update
+apt-get install -y nginx
+
+echo 'add_header X-Served-By $hostname;' > /etc/nginx/conf.d/custom_header.conf
+
+service nginx restart
