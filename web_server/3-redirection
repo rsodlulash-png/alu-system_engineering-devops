@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Configure Nginx to redirect /redirect_me
+
+apt-get update
+apt-get install -y nginx
+
+# Configure permanent redirection
+sed -i '/server_name _;/a\
+\
+    location /redirect_me {\
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\
+    }' /etc/nginx/sites-available/default
+
+# Check Nginx configuration
+nginx -t
+
+# Restart Nginx
+systemctl restart nginx
