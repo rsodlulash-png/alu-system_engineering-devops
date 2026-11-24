@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# this is task 0 opf debugging
+
+sudo service apache2 status
+sudo service apache2 restart
+curl localhost
