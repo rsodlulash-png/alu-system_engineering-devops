@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# this is the nginx changing users 
+pkill apache2
+id nginx &>/dev/null || useradd -r -s /usr/sbin/nologin nginx
+sed -i '/^user /d' /etc/nginx/nginx.conf
+sed -i '1i user nginx;' /etc/nginx/nginx.conf
+sed -i -E 's/listen (\[::\]:)?80( |;)/listen \18080\2/' /etc/nginx/sites-enabled/*
+chmod 644 /etc/nginx/nginx.conf
+service nginx stop
+pkill -9 nginx
+chown -R nginx:nginx /var/log/nginx /var/lib/nginx
+rm -f /run/nginx.pid
+touch /run/nginx.pid
+chown nginx:nginx /run/nginx.pid
+sudo -u nginx nginx
