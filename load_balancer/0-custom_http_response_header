@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-# Configures a brand new Ubuntu machine so that Nginx adds a custom
-# X-Served-By header containing the hostname of the server answering.
+# Installs Nginx and adds a custom X-Served-By header with the server hostname
+# shellcheck disable=SC2154
 
-sudo apt-get update
-sudo apt-get install -y nginx
+SUDO=""
+if [ "$(id -u)" -ne 0 ]; then
+	SUDO="sudo"
+fi
 
-# Put the header in the http context (conf.d is included there), so it applies to
-# every site regardless of which site file is enabled.
-# $hostname is a built-in Nginx variable, so the same script works on web-01 and web-02.
-echo 'add_header X-Served-By $hostname;' | sudo tee /etc/nginx/conf.d/custom_header.conf > /dev/null
+$SUDO apt-get update -y
+$SUDO apt-get install -y nginx
 
-# Validate the configuration, then restart Nginx
-sudo nginx -t
-sudo service nginx restart
+if ! grep -q "X-Served-By" /etc/nginx/sites-available/default; then
+	$SUDO sed -i '/server_name _;/a \\tadd_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+fi
+
+$SUDO service nginx restart
